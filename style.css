@@ -1,0 +1,826 @@
+/* ===========================
+   CSS VARIABLES & THEME SYSTEM
+   =========================== */
+
+:root {
+    /* Dark Mode (Default) */
+    --bg-primary: #050505;
+    --bg-secondary: #0f0f0f;
+    --bg-tertiary: #1a1a1a;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --accent: #00d4ff;
+    --accent-glow: #0099cc;
+    --border-color: #2a2a2a;
+    --glass-bg: rgba(15, 15, 15, 0.6);
+    --shadow-sm: 0 4px 12px rgba(0, 212, 255, 0.05);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+    
+    /* Light Mode */
+    --light-bg-primary: #fafaf8;
+    --light-bg-secondary: #f5f5f0;
+    --light-bg-tertiary: #efefea;
+    --light-text-primary: #1a1a1a;
+    --light-text-secondary: #6b6b6b;
+    --light-accent: #d4a574;
+    --light-accent-glow: #c68a4a;
+    --light-border: #e0e0d5;
+    --light-glass-bg: rgba(255, 255, 255, 0.5);
+    --light-shadow-sm: 0 2px 8px rgba(212, 165, 116, 0.08);
+    --light-shadow-md: 0 4px 16px rgba(26, 26, 26, 0.08);
+    --light-shadow-lg: 0 12px 32px rgba(26, 26, 26, 0.12);
+    
+    /* Spacing & Layout */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Typography */
+    --font-display: 'Amiri', serif;
+    --font-sans: 'Cairo', sans-serif;
+    --font-mono: 'Tajawal', sans-serif;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease-out;
+    --transition-base: 300ms ease-out;
+    --transition-slow: 500ms ease-out;
+}
+
+/* Light Mode */
+body.light-mode {
+    --bg-primary: var(--light-bg-primary);
+    --bg-secondary: var(--light-bg-secondary);
+    --bg-tertiary: var(--light-bg-tertiary);
+    --text-primary: var(--light-text-primary);
+    --text-secondary: var(--light-text-secondary);
+    --accent: var(--light-accent);
+    --accent-glow: var(--light-accent-glow);
+    --border-color: var(--light-border);
+    --glass-bg: var(--light-glass-bg);
+    --shadow-sm: var(--light-shadow-sm);
+    --shadow-md: var(--light-shadow-md);
+    --shadow-lg: var(--light-shadow-lg);
+}
+
+/* ===========================
+   GLOBAL STYLES
+   =========================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background-color var(--transition-slow), color var(--transition-slow);
+    overflow-x: hidden;
+}
+
+/* Prevent layout shift during theme change */
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+/* ===========================
+   ANIMATED BACKGROUND
+   =========================== */
+
+.animated-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 153, 204, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+    animation: float 15s ease-in-out infinite;
+}
+
+body.light-mode .animated-bg {
+    background:
+        radial-gradient(circle at 20% 50%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(198, 138, 74, 0.04) 0%, transparent 50%);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* ===========================
+   NAVIGATION BAR
+   =========================== */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+body.light-mode .navbar {
+    border-bottom-color: rgba(26, 26, 26, 0.08);
+}
+
+.navbar-container {
+    max-width: 1600px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo */
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+}
+
+.navbar-logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-icon {
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3));
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+body.light-mode .logo-icon {
+    filter: drop-shadow(0 0 4px rgba(212, 165, 116, 0.2));
+}
+
+.logo-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-family: var(--font-sans);
+}
+
+@keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3)); }
+    50% { filter: drop-shadow(0 0 16px rgba(0, 212, 255, 0.5)); }
+}
+
+/* Search Bar */
+.search-container {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+    margin: 0 var(--spacing-lg);
+}
+
+.search-input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    padding-right: 36px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.search-input:focus {
+    border-color: var(--accent);
+    background: var(--bg-secondary);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+
+body.light-mode .search-input:focus {
+    box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    right: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: relative;
+    width: 60px;
+    height: 32px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent);
+    background: var(--bg-tertiary);
+}
+
+.toggle-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.toggle-thumb {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: var(--accent);
+    border-radius: 50%;
+    transition: all var(--transition-base);
+    box-shadow: 0 2px 6px rgba(0, 212, 255, 0.3);
+    right: 4px;
+}
+
+body.light-mode .toggle-thumb {
+    right: auto;
+    left: 4px;
+    background: var(--accent);
+}
+
+.toggle-label {
+    position: absolute;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+/* ===========================
+   LAYOUT - MAIN CONTAINER
+   =========================== */
+
+.main-container {
+    display: flex;
+    margin-top: 70px;
+    min-height: calc(100vh - 70px);
+    position: relative;
+    z-index: 1;
+}
+
+/* ===========================
+   SIDEBAR
+   =========================== */
+
+.sidebar {
+    width: 320px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: var(--spacing-lg);
+    transition: all var(--transition-base);
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--text-secondary);
+    border-radius: 3px;
+    opacity: 0.3;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    opacity: 0.6;
+}
+
+.sidebar-header {
+    padding: 0 var(--spacing-lg) var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: var(--spacing-lg);
+}
+
+.sidebar-header h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+}
+
+.sidebar-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+}
+
+/* Surah List */
+.surah-list {
+    list-style: none;
+    padding: 0 var(--spacing-md);
+}
+
+.surah-item {
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 1px solid transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.surah-item:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+    padding-right: calc(var(--spacing-md) + 4px);
+}
+
+.surah-item.active {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
+}
+
+body.light-mode .surah-item.active {
+    background: rgba(212, 165, 116, 0.08);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 8px rgba(212, 165, 116, 0.1);
+}
+
+.surah-name {
+    flex: 1;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+}
+
+.surah-number {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    margin-right: var(--spacing-sm);
+}
+
+.surah-item.active .surah-number {
+    color: var(--accent);
+}
+
+/* ===========================
+   READING AREA
+   =========================== */
+
+.reading-area {
+    flex: 1;
+    padding: var(--spacing-xl);
+    padding-right: var(--spacing-xl);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reading-area::-webkit-scrollbar {
+    width: 6px;
+}
+
+.reading-area::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.reading-area::-webkit-scrollbar-thumb {
+    background: var(--text-secondary);
+    border-radius: 3px;
+    opacity: 0.2;
+}
+
+.reading-area::-webkit-scrollbar-thumb:hover {
+    opacity: 0.4;
+}
+
+/* ===========================
+   EMPTY STATE
+   =========================== */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn var(--transition-slow) ease-out forwards;
+}
+
+.empty-state-icon {
+    width: 100px;
+    height: 100px;
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* ===========================
+   LOADING STATE
+   =========================== */
+
+.loading-state {
+    width: 100%;
+    max-width: 800px;
+    animation: fadeIn var(--transition-base) ease-out;
+}
+
+.skeleton-header {
+    height: 60px;
+    background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-tertiary) 50%, var(--bg-secondary) 75%);
+    background-size: 200% 100%;
+    border-radius: 12px;
+    margin-bottom: var(--spacing-xl);
+    animation: loading 2s infinite;
+}
+
+.skeleton-verse {
+    height: 100px;
+    background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-tertiary) 50%, var(--bg-secondary) 75%);
+    background-size: 200% 100%;
+    border-radius: 12px;
+    margin-bottom: var(--spacing-lg);
+    animation: loading 2s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ===========================
+   SURAH CONTENT
+   =========================== */
+
+.surah-content {
+    width: 100%;
+    max-width: 800px;
+}
+
+.surah-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    animation: slideDown var(--transition-base) ease-out;
+}
+
+.surah-title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.light-mode .surah-title {
+    background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.surah-info {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.surah-info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.surah-info-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-xs);
+    opacity: 0.7;
+}
+
+.surah-info-value {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+/* Verses */
+.verses-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.verse {
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    transition: all var(--transition-base);
+    animation: slideUp var(--transition-base) ease-out both;
+    position: relative;
+    overflow: hidden;
+}
+
+.verse:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md), 0 0 20px rgba(0, 212, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+body.light-mode .verse:hover {
+    box-shadow: var(--shadow-md), 0 0 12px rgba(212, 165, 116, 0.08);
+}
+
+/* Staggered animation for verses */
+.verse:nth-child(1) { animation-delay: 0ms; }
+.verse:nth-child(2) { animation-delay: 50ms; }
+.verse:nth-child(3) { animation-delay: 100ms; }
+.verse:nth-child(4) { animation-delay: 150ms; }
+.verse:nth-child(5) { animation-delay: 200ms; }
+.verse:nth-child(n+6) { animation-delay: 250ms; }
+
+.verse-number {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: var(--bg-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+}
+
+body.light-mode .verse-number {
+    box-shadow: 0 2px 8px rgba(212, 165, 116, 0.2);
+}
+
+.verse-text {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    line-height: 2;
+    color: var(--text-primary);
+    text-align: right;
+    margin: var(--spacing-md) 0;
+    letter-spacing: 0.3px;
+    word-spacing: 0.1em;
+}
+
+.verse-translation {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    font-style: italic;
+}
+
+/* ===========================
+   ERROR TOAST
+   =========================== */
+
+.toast {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4444;
+    color: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    z-index: 2000;
+    transition: bottom var(--transition-base);
+    box-shadow: var(--shadow-lg);
+}
+
+.toast.show {
+    bottom: 30px;
+}
+
+/* ===========================
+   ANIMATIONS
+   =========================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+   =========================== */
+
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 280px;
+    }
+    
+    .reading-area {
+        padding: var(--spacing-lg);
+    }
+    
+    .verse-text {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 0 var(--spacing-md);
+        gap: var(--spacing-sm);
+    }
+    
+    .search-container {
+        max-width: 200px;
+        margin: 0 var(--spacing-sm);
+    }
+    
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        height: auto;
+        max-height: 200px;
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: var(--spacing-md) 0;
+    }
+    
+    .sidebar-header {
+        padding: 0 var(--spacing-lg);
+        border-bottom: none;
+        border-right: 1px solid var(--border-color);
+        margin-bottom: 0;
+        margin-right: var(--spacing-lg);
+        min-width: 150px;
+    }
+    
+    .surah-list {
+        display: flex;
+        gap: var(--spacing-xs);
+        padding: 0 var(--spacing-lg);
+    }
+    
+    .surah-item {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    .reading-area {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+    
+    .surah-title {
+        font-size: 1.8rem;
+    }
+    
+    .verse-text {
+        font-size: 1.3rem;
+        line-height: 1.8;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        height: auto;
+        padding: var(--spacing-sm) 0;
+    }
+    
+    .navbar-container {
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+    
+    .search-container {
+        max-width: 100%;
+        margin: var(--spacing-sm) 0;
+        flex-basis: 100%;
+        order: 3;
+    }
+    
+    .logo-text {
+        display: none;
+    }
+    
+    .surah-info {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .reading-area {
+        padding: var(--spacing-md);
+    }
+    
+    .surah-title {
+        font-size: 1.4rem;
+    }
+    
+    .verse-text {
+        font-size: 1.1rem;
+    }
+}
